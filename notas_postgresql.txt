@@ -1,0 +1,24 @@
+- blog
+https://debsconsultores.blogspot.com/2021/10/integrar-consola-cmder-en-visual-studio.html
+
+- accedemos con el usuario postgress
+psql -U postgres
+
+- listar todas las bases de datos
+\l
+
+- conectarse a una base de datos
+\c syscofa_db
+
+- listar todas las tablas
+\dt
+
+- crear usuario
+create user manuel password '123456';
+
+- crear base de datos
+create database dbprueba with owner manuel;
+
+- eliminar base de datos
+drop database dbprueba;
+

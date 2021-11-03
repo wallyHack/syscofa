@@ -1,0 +1,145 @@
+- plugins django
+djaneiro
+vscode-icons
+Visual Studio IntelliCode
+Spanish Language Pack for Visual Studio Code
+Polacode
+Settings Sync
+Prettier - Code formatter
+Path Intellisense
+Material Icon Theme
+Live Server
+Linter
+Bracket Pair Colorizer
+
+- crear el entorno virtual
+python3 -m venv sistema_cofa
+
+- activar el entorno virtual
+source sistema_cofa/bin/activate
+
+- instalar dependencias en el entorno
+pip install django
+pip install pylint
+pip install psycopg2-binary
+pip install psycopg2 -- adaptador de base de datos con postgresql
+
+- seleccionamos el interprete python en vscode, ubicado en el entorno virtual del proyecto
+
+- configurar postgresql en settings.py django
+
+- PARA ESTO YA DEBEMOS TENER CREADA LA BASE DE DATOS Y EL USUARIO EN POSTGRESQL
+
+# configuración de base de datos con postgresql
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'syscofa_db',
+        'HOST': 'localhost',
+        'USER': 'postgres',
+        'PORT': 5432,
+        'PASSWORD': 'toor',
+    }
+}
+
+- configuración de la zona horaria para méxico
+LANGUAGE_CODE = 'es-mx'
+TIME_ZONE = 'America/Mexico_City'
+
+- entramos al shell de postgres con django
+python manage.py dbshell
+
+- hacemos las migraciones 
+python manage.py migrate
+
+- mostramos las migraciones
+python manage.py showmigrations
+
+- mostrar los comandos de django
+python manage.py
+
+- nos conectamos a la base de datos de postgre sql
+python manage.py dbshell
+
+- listamos todas las tablas de postgresql
+\dt
+
+- CONFIGURAR gitignore en aplicación django
+https://www.toptal.com/developers/gitignore
+gitignore.io
+
+poner visualstudiocode y django; y copiar todo en el .gitignore
+
+-- buscar django y visual studio code, copiar el contenido y pegarlo en el archivo .gitignore
+
+- elegimos la plantilla SBADMIN 2 y la descargamos
+
+- LENGUAJE DE PLANTILLAS DE DJANGO
+comentarios
+{# esto es un comentario #}
+
+variables
+{{ producto.titulo }}
+
+filtros
+{{ name|lower }}
+
+filtros encadenados
+{{ text|escape|linebreaks }}
+
+etiquetas(Tags)
+{% block %}
+{% endblock %}
+
+{% for %}
+{% endfor %}
+
+- ASI SE AGREGA UN APLICACIÓN CREADA EN settings.py en aplicaciones instaladas
+'bases.apps.BasesConfig',
+
+- archivos estaticos(imagenes, js, css)
+en settings.py configurar la variable STATIC_URL
+en el template cargar los archivos:
+{% load static %}
+
+- invocar un elemento estatico
+<img src="{% static "my_app/example.jpg" %}" alt="My image">
+
+- NOTA: Las carpetas de static y templates deben estar al nivel de manage.py
+y agregamos esto en settings.py para que reconozca los archivos:
+
+'DIRS': [os.path.join(BASE_DIR, 'templates')],
+
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+
+# media files
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+- superusuarios
+python manage.py createsuperuser
+
+admin
+Manny061195
+
+chino
+Manny061195
+
+https://docs.djangoproject.com/en/3.2/topics/auth/default/
+- el decorator @login_required es usado en vistas basadas en funciones
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def my_view(request):
+  ...
+  ...
+
+- el mixin LoginRequiredMixin es usado en vistas basadas en clases
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+class MyView(LoginRequiredMixin, View):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
