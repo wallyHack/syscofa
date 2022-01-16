@@ -1,0 +1,16 @@
+
+- TemplateDoesNotExist at /
+solución:
+agregar en settings.py - templates
+'DIRS': [os.path.join(BASE_DIR, 'templates'),],
+
+- TemplateSyntaxError at /
+Invalid block tag on line 15: 'static'. Did you forget to register or load this tag?
+solución:
+corregir la sintaxis de plantillas
+{% load static %}
+href="{% static 'base/vendor/fontawesome-free/css/all.min.css' %}"
+
+- no cargan las imagénes locales ni fuentes
+solución:
+agregar en settings.py la ruta de ficheros estáticos
