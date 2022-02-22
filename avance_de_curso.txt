@@ -1,4 +1,4 @@
-seccion 7
+seccion 8 login/logout
 
-46: Crear vista Home
+51: template login
 
