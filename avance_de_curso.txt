@@ -1,4 +1,4 @@
 seccion 8 login/logout
 
-51: template login
+54: logout
 
