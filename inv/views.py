@@ -28,3 +28,16 @@ class CategoriaNew(LoginRequiredMixin, generic.CreateView):
     def form_valid(self, form):
         form.instance.uc = self.request.user #ubicamos al usuario que creo el formulario
         return super().form_valid(form)
+
+class CategoriaEdit(LoginRequiredMixin, generic.UpdateView):    
+    """ vista basada en clase para editar y actualizar una categoría"""
+    model = Categoria
+    template_name = "inv/categoria_form.html"
+    context_object_name = "obj"
+    form_class =  CategoriaForm #formulario a utilizar
+    success_url = reverse_lazy("inv:categoria_list") #redireccionamos a la lista de categorías
+    login_url = "bases:login"
+
+    def form_valid(self, form):
+        form.instance.um = self.request.user.id #ubicamos al usuario que modificó el formulario
+        return super().form_valid(form)
