@@ -41,3 +41,10 @@ class CategoriaEdit(LoginRequiredMixin, generic.UpdateView):
     def form_valid(self, form):
         form.instance.um = self.request.user.id #ubicamos al usuario que modificó el formulario
         return super().form_valid(form)
+
+class CategoriaDel(LoginRequiredMixin, generic.edit.DeleteView):
+    """ vista basada en clase para eliminar una categoría"""
+    model = Categoria
+    template_name = "inv/categoria_del.html"
+    context_object_name = "obj"
+    success_url = reverse_lazy("inv:categoria_list")
