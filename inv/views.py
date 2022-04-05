@@ -5,7 +5,7 @@ from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 
-from .models import Categoria
+from .models import Categoria, SubCategoria
 from .forms import CategoriaForm
 
 # Create your views here.
@@ -48,3 +48,10 @@ class CategoriaDel(LoginRequiredMixin, generic.edit.DeleteView):
     template_name = "inv/categoria_del.html"
     context_object_name = "obj"
     success_url = reverse_lazy("inv:categoria_list")
+
+class SubCategoriaView(LoginRequiredMixin, generic.ListView):
+    """ vista basada en clase que lista las subcategorías"""
+    model = SubCategoria
+    template_name = "inv/subcategoria_list.html"
+    context_object_name = "obj"
+    login_url = 'bases:login'

@@ -1,4 +1,4 @@
 
 sección 9 - catalogos
-video 72 -> activar DataTable en listado
+video 81 -> FORMULARIO subcategoria
 
