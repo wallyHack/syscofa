@@ -6,7 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 
 from .models import Categoria, SubCategoria
-from .forms import CategoriaForm
+from .forms import CategoriaForm, SubCategoriaForm
 
 # Create your views here.
 class CategoriaView(LoginRequiredMixin, generic.ListView):
@@ -55,3 +55,16 @@ class SubCategoriaView(LoginRequiredMixin, generic.ListView):
     template_name = "inv/subcategoria_list.html"
     context_object_name = "obj"
     login_url = 'bases:login'
+
+class SubCategoriaNew(LoginRequiredMixin, generic.CreateView):
+    """ vista basada en clase para crear una nueva subcategoría"""
+    model = SubCategoria
+    template_name = "inv/subcategoria_form.html"
+    context_object_name = "obj"
+    form_class =  SubCategoriaForm #formulario a utilizar
+    success_url = reverse_lazy("inv:subcategoria_list") #redireccionamos a la lista de categorías
+    login_url = "bases:login"
+
+    def form_valid(self, form):
+        form.instance.uc = self.request.user #ubicamos al usuario que creo el formulario
+        return super().form_valid(form)
