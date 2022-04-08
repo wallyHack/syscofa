@@ -62,9 +62,29 @@ class SubCategoriaNew(LoginRequiredMixin, generic.CreateView):
     template_name = "inv/subcategoria_form.html"
     context_object_name = "obj"
     form_class =  SubCategoriaForm #formulario a utilizar
-    success_url = reverse_lazy("inv:subcategoria_list") #redireccionamos a la lista de categorías
+    success_url = reverse_lazy("inv:subcategoria_list") #redireccionamos a la lista de subcategorías
     login_url = "bases:login"
 
     def form_valid(self, form):
         form.instance.uc = self.request.user #ubicamos al usuario que creo el formulario
         return super().form_valid(form)
+
+class SubCategoriaEdit(LoginRequiredMixin, generic.UpdateView):    
+    """ vista basada en clase para editar y actualizar una subcategoría"""
+    model = SubCategoria
+    template_name = "inv/subcategoria_form.html"
+    context_object_name = "obj"
+    form_class =  SubCategoriaForm #formulario a utilizar
+    success_url = reverse_lazy("inv:subcategoria_list") #redireccionamos a la lista de subcategorías
+    login_url = "bases:login"
+
+    def form_valid(self, form):
+        form.instance.um = self.request.user.id #ubicamos al usuario que modificó el formulario
+        return super().form_valid(form)
+
+class SubCategoriaDel(LoginRequiredMixin, generic.edit.DeleteView):
+    """ vista basada en clase para eliminar una subcategoría"""
+    model = SubCategoria
+    template_name = "inv/catalogos_del.html"
+    context_object_name = "obj"
+    success_url = reverse_lazy("inv:subcategoria_list")
