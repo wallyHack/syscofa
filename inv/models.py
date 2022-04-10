@@ -22,6 +22,7 @@ class Categoria(ClaseModelo):
         super(Categoria, self).save()
 
     class Meta:
+        """ nombre en plural(Muchos) del modelo"""
         verbose_name_plural = "Categorias"
 
 class SubCategoria(ClaseModelo):
@@ -40,5 +41,26 @@ class SubCategoria(ClaseModelo):
         super(SubCategoria, self).save()
 
     class Meta:
+        """ nombre en plural(Muchos) del modelo"""
         verbose_name_plural = "Sub Categorias"
         unique_together = ('categoria','descripcion')
+
+class Marca(ClaseModelo):
+    descripcion = models.CharField(
+        max_length=100,
+        help_text="Descripción de la marca",
+        unique=True
+    )
+
+    def __str__(self):
+        """ descripción del modelo marca"""
+        return '{}'.format(self.descripcion)
+
+    def save(self):
+        """ el valor de marca lo guardamos en mayusculas"""
+        self.descripcion = self.descripcion.upper()
+        super(Marca, self).save()
+
+    class Meta:
+        """ nombre en plural(Muchos) del modelo"""
+        verbose_name_plural = "Marcas"

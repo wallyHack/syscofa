@@ -2,8 +2,10 @@ from django.urls import path
 
 from inv.models import SubCategoria
 
-from .views import CategoriaView, CategoriaNew, CategoriaEdit, CategoriaDel, \
-    SubCategoriaView, SubCategoriaNew, SubCategoriaEdit, SubCategoriaDel
+from .views import CategoriaView, CategoriaNew, CategoriaEdit, CategoriaDel, MarcaView, \
+    SubCategoriaView, SubCategoriaNew, SubCategoriaEdit, SubCategoriaDel, \
+        MarcaView, MarcaNew, MarcaEdit, marca_inactivar, \
+            marca_inactivar
 
 urlpatterns = [
     path('categorias/', CategoriaView.as_view(), name='categoria_list'),
@@ -15,4 +17,9 @@ urlpatterns = [
     path('subcategorias/new', SubCategoriaNew.as_view(), name='subcategoria_new'),
     path('subcategorias/edit/<int:pk>', SubCategoriaEdit.as_view(), name='subcategoria_edit'),
     path('subcategorias/delete/<int:pk>', SubCategoriaDel.as_view(), name='subcategoria_del'),
+
+    path('marcas/', MarcaView.as_view(), name='marca_list'),
+    path('marcas/new', MarcaNew.as_view(), name='marca_new'),
+    path('marcas/edit/<int:pk>', MarcaEdit.as_view(), name='marca_edit'),
+    path('marcas/inactivar/<int:id>', marca_inactivar, name='marca_inactivar'),
 ]
