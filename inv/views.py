@@ -5,8 +5,8 @@ from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 
-from .models import Categoria, SubCategoria, Marca, UnidadMedida
-from .forms import CategoriaForm, SubCategoriaForm, MarcaForm, UMForm
+from .models import Categoria, SubCategoria, Marca, UnidadMedida, Producto
+from .forms import CategoriaForm, SubCategoriaForm, MarcaForm, UMForm, ProductoForm
 
 # Create your views here.
 class CategoriaView(LoginRequiredMixin, generic.ListView):
@@ -190,5 +190,58 @@ def um_inactivar(request, id):
         um.estado = False
         um.save()
         return redirect('inv:um_list')
+
+    return render(request, template_name, contexto)
+
+class ProductoView(LoginRequiredMixin, generic.ListView):
+    """ vista basada en clase que lista los productos"""
+    model = Producto
+    template_name = "inv/producto_list.html"
+    context_object_name = "obj"
+    login_url = 'bases:login'
+
+class ProductoNew(LoginRequiredMixin, generic.CreateView):
+    """ vista basada en clase para crear una nuevo producto"""
+    model = Producto
+    template_name = "inv/producto_form.html"
+    context_object_name = "obj"
+    form_class =  ProductoForm #formulario a utilizar
+    success_url = reverse_lazy("inv:producto_list") #redireccionamos a la lista de productos
+    login_url = "bases:login"
+
+    def form_valid(self, form):
+        form.instance.uc = self.request.user #ubicamos al usuario que creo el formulario
+        return super().form_valid(form)
+
+class ProductoEdit(LoginRequiredMixin, generic.CreateView):
+    """ vista basada en clase para crear un nuevo producto"""
+    model = Producto
+    template_name = "inv/producto_form.html"
+    context_object_name = "obj"
+    form_class =  ProductoForm #formulario a utilizar
+    success_url = reverse_lazy("inv:producto_list") #redireccionamos a la lista de producto
+    login_url = "bases:login"
+
+    def form_valid(self, form):
+        form.instance.uc = self.request.user #ubicamos al usuario que creo el formulario
+        return super().form_valid(form)
+
+
+def producto_inactivar(request, id):
+    """ vista que inactiva una producto"""
+    producto = Producto.objects.filter(pk=id).first()
+    contexto = {}
+    template_name="inv/producto_inactivar.html"
+
+    if not producto:
+        return redirect("inv:producto_list")
+
+    if request.method == 'GET':
+        contexto = {'obj': producto}
+
+    if request.method == 'POST':
+        producto.estado = False
+        producto.save()
+        return redirect('inv:producto_list')
 
     return render(request, template_name, contexto)

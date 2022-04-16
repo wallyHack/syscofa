@@ -1,4 +1,4 @@
 
 sección 9 - catalogos
-video 92 -> UM
+video 93 -> CRUD producto min:8.43
 
