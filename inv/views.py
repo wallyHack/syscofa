@@ -213,19 +213,18 @@ class ProductoNew(LoginRequiredMixin, generic.CreateView):
         form.instance.uc = self.request.user #ubicamos al usuario que creo el formulario
         return super().form_valid(form)
 
-class ProductoEdit(LoginRequiredMixin, generic.CreateView):
-    """ vista basada en clase para crear un nuevo producto"""
+class ProductoEdit(LoginRequiredMixin, generic.UpdateView):    
+    """ vista basada en clase para editar y/o actualizar un producto"""
     model = Producto
     template_name = "inv/producto_form.html"
     context_object_name = "obj"
     form_class =  ProductoForm #formulario a utilizar
-    success_url = reverse_lazy("inv:producto_list") #redireccionamos a la lista de producto
+    success_url = reverse_lazy("inv:producto_list") #redireccionamos a la lista de productos
     login_url = "bases:login"
 
     def form_valid(self, form):
-        form.instance.uc = self.request.user #ubicamos al usuario que creo el formulario
+        form.instance.um = self.request.user.id #ubicamos al usuario que modificó el formulario
         return super().form_valid(form)
-
 
 def producto_inactivar(request, id):
     """ vista que inactiva una producto"""

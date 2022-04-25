@@ -52,7 +52,9 @@
                        <td>{{ item.unidad_medida }}</td>
                        <td>{{ item.estado|yesno:"Activo,Inactivo" }}</td>
                        <td>
-                          <button class="btn btn-warning btn-circle"><i class="far fa-edit"></i></button>
+                          <button class="btn btn-warning btn-circle">
+                            <i class="far fa-edit"></i></button>
+                            <a href="{% url 'inv:producto_inactivar' item.id %}" class="btn btn-danger btn-circle" role="button"><i class="far fa-thumbs-down"></i></a>
                        </td>
                    </tr>
                {% endfor %}
