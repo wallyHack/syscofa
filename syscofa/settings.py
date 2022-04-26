@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bases.apps.BasesConfig',
     'inv.apps.InvConfig',
+    'cmp.apps.CmpConfig',
 ]
 
 MIDDLEWARE = [

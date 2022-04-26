@@ -3,9 +3,9 @@
     <div class="modal-content">
         
         {% if obj %}        
-            <form method="POST" role="form" class="form-inline" action="{% url 'inv:producto_edit' obj.pk %}">
+            <form method="POST" role="form" class="form-inline" action="{% url 'cmp:proveedor_edit' obj.pk %}">
         {% else %}
-            <form method="POST" role="form" class="form-inline" action="{% url 'inv:producto_new' %}">
+            <form method="POST" role="form" class="form-inline" action="{% url 'cmp:proveedor_new' %}">
         {% endif %}    
 
             {% csrf_token %}
@@ -20,7 +20,7 @@
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
                                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                        {% if obj %} Editar {% else %} Nuevo {% endif %}Producto
+                                        {% if obj %} Editar {% else %} Nuevo {% endif %}Proveedor
                                     </div>
                                     <div class="dropdown-divider"></div>
                                     <div class="row">

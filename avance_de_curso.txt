@@ -1,4 +1,7 @@
 
 sección 9 - catalogos
-video 96 -> New / Edit ventana modal de producto  min 10
+video 99  
 
+- error al editar producto con ventana modal - POPUP
+
+ 
