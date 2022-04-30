@@ -5,6 +5,6 @@ from .views import ProveedorView, ProveedorNew, ProveedorEdit
 
 urlpatterns = [
     path('proveedores/', ProveedorView.as_view(), name="proveedor_list"),
-    path("proveedores/", ProveedorNew.as_view(), name="proveedor_new"),
-    path("proveedores/", ProveedorEdit.as_view(), name="proveedor_edit"),
+    path("proveedores/new", ProveedorNew.as_view(), name="proveedor_new"),
+    path("proveedores/edit:pk", ProveedorEdit.as_view(), name="proveedor_edit"),
 ]

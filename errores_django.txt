@@ -14,3 +14,9 @@ href="{% static 'base/vendor/fontawesome-free/css/all.min.css' %}"
 - no cargan las imagénes locales ni fuentes
 solución:
 agregar en settings.py la ruta de ficheros estáticos
+
+- en windows vscode no se reconoce
+python manage.py dbshell
+
+solución:
+-- C:\Program Files\PostgreSQL\12\bin agregar esta ruta a las variables de entorno y sistema en -- path

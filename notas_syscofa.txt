@@ -45,7 +45,7 @@ DATABASES = {
 - en windows vscode no se reconoce
 python manage.py dbshell
 
--- C:\Program Files\PostgreSQL\12\bin agregar esta ruta a las variables de entorno
+-- C:\Program Files\PostgreSQL\12\bin agregar esta ruta a las variables de entorno y sistema en -- path
 
 - entramos al shell de postgres con django
 python manage.py dbshell

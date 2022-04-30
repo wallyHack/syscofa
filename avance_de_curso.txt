@@ -2,6 +2,3 @@
 sección 9 - catalogos
 video 99  
 
-- error al editar producto con ventana modal - POPUP
-
- 
