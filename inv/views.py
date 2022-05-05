@@ -2,9 +2,11 @@ from pyexpat import model
 from re import template
 from django.shortcuts import render, redirect
 from django.views import generic
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.contrib import messages
+
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
 
 from .models import Categoria, SubCategoria, Marca, UnidadMedida, Producto
 from .forms import CategoriaForm, SubCategoriaForm, MarcaForm, UMForm, ProductoForm
@@ -17,7 +19,7 @@ class CategoriaView(LoginRequiredMixin, generic.ListView):
     context_object_name = "obj"
     login_url = 'bases:login'
 
-class CategoriaNew(LoginRequiredMixin, generic.CreateView):
+class CategoriaNew(SuccessMessageMixin, LoginRequiredMixin, generic.CreateView):
     """ vista basada en clase para crear una nueva categoría"""
     model = Categoria
     template_name = "inv/categoria_form.html"
@@ -25,12 +27,13 @@ class CategoriaNew(LoginRequiredMixin, generic.CreateView):
     form_class =  CategoriaForm #formulario a utilizar
     success_url = reverse_lazy("inv:categoria_list") #redireccionamos a la lista de categorías
     login_url = "bases:login"
+    success_message = "Categoría creada satisfactoriamente"
 
     def form_valid(self, form):
         form.instance.uc = self.request.user #ubicamos al usuario que creo el formulario
         return super().form_valid(form)
 
-class CategoriaEdit(LoginRequiredMixin, generic.UpdateView):    
+class CategoriaEdit(SuccessMessageMixin, LoginRequiredMixin, generic.UpdateView):    
     """ vista basada en clase para editar y/o actualizar una categoría"""
     model = Categoria
     template_name = "inv/categoria_form.html"
@@ -38,6 +41,7 @@ class CategoriaEdit(LoginRequiredMixin, generic.UpdateView):
     form_class =  CategoriaForm #formulario a utilizar
     success_url = reverse_lazy("inv:categoria_list") #redireccionamos a la lista de categorías
     login_url = "bases:login"
+    success_message = "Categoría actualizada satisfactoriamente"
 
     def form_valid(self, form):
         form.instance.um = self.request.user.id #ubicamos al usuario que modificó el formulario
@@ -138,7 +142,7 @@ def marca_inactivar(request, id):
     if request.method == 'POST':
         marca.estado = False
         marca.save()
-        messages.success(request, 'Marca Inactivada')
+        messages.success (request, 'Marca Inactivada')
         return redirect('inv:marca_list')
 
     return render(request, template_name, contexto)

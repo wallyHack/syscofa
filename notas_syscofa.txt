@@ -144,3 +144,7 @@ class MyView(LoginRequiredMixin, View):
     redirect_field_name = 'redirect_to'
 
 - uso de la libreria Jquery-confirm
+
+- agregando mensajes en vistas basadas en clases
+usamos el mixin SuccessMessageMixin
+from django.contrib.messages.views import SuccessMessageMixin
