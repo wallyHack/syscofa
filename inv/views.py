@@ -13,36 +13,33 @@ from .forms import CategoriaForm, SubCategoriaForm, MarcaForm, UMForm, ProductoF
 from bases.views import Sin_Privilegios
 
 # Create your views here.
-class CategoriaView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):
+class CategoriaView(Sin_Privilegios, generic.ListView):
     """ vista basada en clase que lista las categorías"""
     permission_required = 'inv.view_categoria'
     model = Categoria
     template_name = "inv/categoria_list.html"
     context_object_name = "obj"
-    login_url = 'bases:login'
 
-class CategoriaNew(SuccessMessageMixin, LoginRequiredMixin, generic.CreateView):
+class CategoriaNew(SuccessMessageMixin, Sin_Privilegios, generic.CreateView):
     """ vista basada en clase para crear una nueva categoría"""
     model = Categoria
     template_name = "inv/categoria_form.html"
     context_object_name = "obj"
     form_class =  CategoriaForm #formulario a utilizar
     success_url = reverse_lazy("inv:categoria_list") #redireccionamos a la lista de categorías
-    login_url = "bases:login"
     success_message = "Categoría creada satisfactoriamente"
 
     def form_valid(self, form):
         form.instance.uc = self.request.user #ubicamos al usuario que creo el formulario
         return super().form_valid(form)
 
-class CategoriaEdit(SuccessMessageMixin, LoginRequiredMixin, generic.UpdateView):    
+class CategoriaEdit(SuccessMessageMixin, Sin_Privilegios, generic.UpdateView):    
     """ vista basada en clase para editar y/o actualizar una categoría"""
     model = Categoria
     template_name = "inv/categoria_form.html"
     context_object_name = "obj"
     form_class =  CategoriaForm #formulario a utilizar
     success_url = reverse_lazy("inv:categoria_list") #redireccionamos a la lista de categorías
-    login_url = "bases:login"
     success_message = "Categoría actualizada satisfactoriamente"
 
     def form_valid(self, form):
@@ -56,13 +53,12 @@ class CategoriaDel(LoginRequiredMixin, generic.edit.DeleteView):
     context_object_name = "obj"
     success_url = reverse_lazy("inv:categoria_list")
 
-class SubCategoriaView(LoginRequiredMixin, Sin_Privilegios, generic.ListView):
+class SubCategoriaView(Sin_Privilegios, generic.ListView):
     """ vista basada en clase que lista las subcategorías"""
     permission_required = "inv.view_subcategoria"
     model = SubCategoria
     template_name = "inv/subcategoria_list.html"
     context_object_name = "obj"
-    login_url = 'bases:login'
 
 class SubCategoriaNew(LoginRequiredMixin, generic.CreateView):
     """ vista basada en clase para crear una nueva subcategoría"""
@@ -97,7 +93,7 @@ class SubCategoriaDel(LoginRequiredMixin, generic.edit.DeleteView):
     context_object_name = "obj"
     success_url = reverse_lazy("inv:subcategoria_list")
 
-class MarcaView(LoginRequiredMixin, Sin_Privilegios, generic.ListView):
+class MarcaView(Sin_Privilegios, generic.ListView):
     """ vista basada en clase que lista las marcas"""
     permission_required = 'inv.view_marca'
     model = Marca
