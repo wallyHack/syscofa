@@ -10,11 +10,12 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 from .models import Categoria, SubCategoria, Marca, UnidadMedida, Producto
 from .forms import CategoriaForm, SubCategoriaForm, MarcaForm, UMForm, ProductoForm
+from bases.views import Sin_Privilegios
 
 # Create your views here.
 class CategoriaView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):
     """ vista basada en clase que lista las categorías"""
-    permission_required = "inv:view_categoria"
+    permission_required = 'inv.view_categoria'
     model = Categoria
     template_name = "inv/categoria_list.html"
     context_object_name = "obj"
@@ -55,9 +56,9 @@ class CategoriaDel(LoginRequiredMixin, generic.edit.DeleteView):
     context_object_name = "obj"
     success_url = reverse_lazy("inv:categoria_list")
 
-class SubCategoriaView(LoginRequiredMixin, PermissionRequiredMixin, generic.ListView):
+class SubCategoriaView(LoginRequiredMixin, Sin_Privilegios, generic.ListView):
     """ vista basada en clase que lista las subcategorías"""
-    permission_required = "inv:view_subcategoria"
+    permission_required = "inv.view_subcategoria"
     model = SubCategoria
     template_name = "inv/subcategoria_list.html"
     context_object_name = "obj"
@@ -96,8 +97,9 @@ class SubCategoriaDel(LoginRequiredMixin, generic.edit.DeleteView):
     context_object_name = "obj"
     success_url = reverse_lazy("inv:subcategoria_list")
 
-class MarcaView(LoginRequiredMixin, generic.ListView):
+class MarcaView(LoginRequiredMixin, Sin_Privilegios, generic.ListView):
     """ vista basada en clase que lista las marcas"""
+    permission_required = 'inv.view_marca'
     model = Marca
     template_name = "inv/marca_list.html"
     context_object_name = "obj"
