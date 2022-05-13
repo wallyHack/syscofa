@@ -20,3 +20,9 @@ python manage.py dbshell
 
 solución:
 -- C:\Program Files\PostgreSQL\12\bin agregar esta ruta a las variables de entorno y sistema en -- path
+
+error:
+ValueError: Model cmp.CompraDet can't have more than one auto-generated field
+- solución
+eliminar el campo que se genera solo, en este caso; por que la llave primaria(id) tambien se genera solo
+cantidad = models.BigAutoField(default=0)
