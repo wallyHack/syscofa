@@ -95,7 +95,7 @@
                             <a class="collapse-item" href="{% url 'inv:producto_list' %}">Producto</a>
                         {% endif %}
 
-                        <h6 class="collapse-header">Catálogos de Compras:</h6>
+                        <h6 class="collapse-header">Catálogos de Proveedores:</h6>
 
                         {% if perms.cmp.view_proveedor %}
                             <a class="collapse-item" href="{% url 'cmp:proveedor_list' %}">Proveedores</a>
@@ -106,8 +106,7 @@
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-fw fa-wrench"></i>
                     <span>Movimientos</span>
                 </a>
