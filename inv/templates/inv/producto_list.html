@@ -69,13 +69,18 @@
 {% endblock page_content %}
 
 {% block js_page %}
-<script>
-    // llamamos el dataTables jQuery plugin
-    $(document).ready(function() {
-        $('.table').DataTable();
-    });
-</script>
-   
-{% endblock js_page %}
+
+    <script>
+        $(function){
+            $("#sidebarToggle").click();
+        }    
+
+        // llamamos el dataTables jQuery plugin
+        $(document).ready(function() {
+            $('.table').DataTable();
+        });
+    </script>
+    
+{% endblock js_page%}
     
 
