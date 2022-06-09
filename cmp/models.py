@@ -64,7 +64,7 @@ class ComprasEnc(ClaseModelo):
         verbose_name_plural = "Encabezado Compras"
         verbose_name = "Encabezado Compra"
 
-class CompraDet(ClaseModelo):
+class ComprasDet(ClaseModelo):
     compra = models.ForeignKey(ComprasEnc, on_delete=models.CASCADE)
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     cantidad = models.BigIntegerField(default=0)
@@ -80,7 +80,7 @@ class CompraDet(ClaseModelo):
     def save(self):
         self.sub_total = float(float(int(self.cantidad)) * float(self.precio_prv)) 
         self.total = self.sub_total - float(self.descuento)
-        super(CompraDet, self).save()
+        super(ComprasDet, self).save()
 
     class Meta:
         verbose_name_plural = "Detalles Compras"

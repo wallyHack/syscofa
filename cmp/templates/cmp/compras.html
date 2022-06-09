@@ -24,7 +24,7 @@
                                 <div class="col-6">
                                     <!-- Inicio Encabezado -->
                                     <div class="form-group row">
-                                        <label for="staticEmail" class="col-sm-2 col-form-label">Proveedor:</label>
+                                        <label for="staticEmail" class="col-sm-3 col-form-label">Proveedor:</label>
                                         <div class="col-sm-10">
                                             {{ form_enc.proveedor }}
                                         </div>
@@ -99,7 +99,7 @@
                                                             <td>{{ item.id }} </td>
                                                             <td>{{ item.descripcion }}</td>
                                                             <td>
-                                                                <button type="button" class="btn btn-warning btn-circle" onclick="selectProducto({{ item.id }}, '{{ item.descripcion }}')"><i class="far fa-hand-pointer"></i></button>
+                                                                <button type="button" class="btn btn-warning btn-circle" onclick="selectProducto({{ item.id }}, '{{ item.descripcion }}' )"><i class="far fa-hand-pointer"></i></button>
                                                             </td>
                                                         </tr>
                                                     {% endfor %}  
@@ -112,7 +112,7 @@
                                         <div class="col-sm-2">
                                             <input type="text" readonly class="form-control-plaintext" name="id_id_producto" id="id_id_producto" value="" required>
                                         </div>
-                                        <div class="col-sm-2">
+                                        <div class="col-sm-6">
                                             <input type="text" readonly class="form-control-plaintext" id="id_descripcion_producto" value="" required>
                                         </div>
                                     </div>
@@ -183,8 +183,8 @@
                                     <tr>
                                         <td>{{ item.producto }}</td>
                                         <td>{{ item.cantidad }}</td>
-                                        <td>{{ item.precio }}</td>
-                                        <td>{{ item.subtotal }}</td>
+                                        <td>{{ item.precio_prv }}</td>
+                                        <td>{{ item.sub_total }}</td>
                                         <td>{{ item.descuento }}</td>
                                         <td>{{ item.total }}</td>
                                         <td>
