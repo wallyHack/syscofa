@@ -2,7 +2,7 @@
 {% extends 'base/base.html' %}
 
 {% block page_content %}
-    <form method="post" id="frmcompras">
+    <form method="post" id="frmCompras">
         {% csrf_token %}
         <div class="col-xl-12 col-md-12 mb-12">
             
@@ -25,7 +25,7 @@
                                     <!-- Inicio Encabezado -->
                                     <div class="form-group row">
                                         <label for="staticEmail" class="col-sm-3 col-form-label">Proveedor:</label>
-                                        <div class="col-sm-10">
+                                        <div class="col-sm-12">
                                             {{ form_enc.proveedor }}
                                         </div>
                                     </div>
@@ -188,7 +188,7 @@
                                         <td>{{ item.descuento }}</td>
                                         <td>{{ item.total }}</td>
                                         <td>
-                                            <button class="btn btn-danger btn-circle"><i class="fas fa-trash-alt"></i></button>
+                                            <button class="btn btn-danger btn-circle" onclick="return abrir_modal('{% url 'cmp:compras_del' encabezado.pk item.id %}')"><i class="fas fa-trash-alt"></i></button>
                                         </td>
                                     </tr>
                                     {% endfor %}
@@ -234,6 +234,20 @@
             $('#id_cantidad_detalle, #id_precio_detalle, #id_descuento_detalle').change(function(){
                 calcular_detalle();
             });
+
+            /* Validar Envio de Detalle */
+            $("#frmCompras").submit(function(e){
+                if($('#id_total_detalle').val()==0 || $('#id_id_producto').val()==0){
+                    e.preventDefault();
+                    //alert("no ha agregado producto o esta sin cantidades");
+                    $.alert({
+                        type: 'red',
+                        title: '',
+                        content: 'No ha agregado producto o esta sin cantidades'                     
+                    })
+                }
+            });
+            /* Fin Validar Envio de Detalle */
 
         });
 

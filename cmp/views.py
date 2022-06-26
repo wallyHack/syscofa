@@ -1,3 +1,4 @@
+from msilib.schema import Class
 from re import template
 from xmlrpc.client import DateTime
 from django.shortcuts import render, redirect
@@ -15,7 +16,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 
 from .models import Proveedor, ComprasEnc, ComprasDet
 from .forms import ComprasEncForm
-from cmp.models import Producto
+from cmp.models import Producto, ComprasDet
 from .forms import ProveedorForm
 from bases.views import Sin_Privilegios
 
@@ -185,6 +186,17 @@ def compras(request, compra_id=None):
         return redirect("cmp:compras_edit", compra_id=compra_id)
             
     return render(request, template_name, contexto)
+
+class CompraDetDelete(Sin_Privilegios, generic.DeleteView):
+    permission_required = "cmp.delete_comprasdet"
+    model = ComprasDet
+    template_name = "cmp/compras_det_del.html"
+    context_object_name ='obj'
+
+    def get_success_url(self):
+        compra_id=self.kwargs['compra_id']
+        return reverse_lazy('cmp:compras_edit', kwargs={'compra_id':compra_id})
+
 
     
     
