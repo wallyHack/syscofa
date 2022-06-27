@@ -90,7 +90,7 @@ class ComprasDet(ClaseModelo):
         verbose_name_plural = "Detalles Compras"
         verbose_name = ("Detalle Compra")
 
-#vigilamos el comprasdet
+#vigilamos el comprasenc con signals
 @receiver(post_delete, sender=ComprasDet)
 def detalle_compra_borrar(sender, instance, **kwargs):
     id_producto = instance.producto.id

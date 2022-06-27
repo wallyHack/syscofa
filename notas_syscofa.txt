@@ -148,3 +148,15 @@ class MyView(LoginRequiredMixin, View):
 - agregando mensajes en vistas basadas en clases
 usamos el mixin SuccessMessageMixin
 from django.contrib.messages.views import SuccessMessageMixin
+
+- Signals
+Vigilan los cambios en los modelos
+
+- Reportes
+https://xhtml2pdf.readthedocs.io/en/latest/usage.html - uso de la librería
+usamos la libreria xhtml2pdf para reportes
+
+pip install xhtml2pdf
+
+attachment - genera el archivo pdf
+inline - se vilualiza con el navegador
