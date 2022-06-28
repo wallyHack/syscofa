@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'bases.apps.BasesConfig',
     'inv.apps.InvConfig',
     'cmp.apps.CmpConfig',
+    'fac.apps.FacConfig',
 ]
 
 MIDDLEWARE = [
