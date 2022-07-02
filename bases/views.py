@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from re import template
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
 
 # Create your views here.
 from django.views import generic
@@ -29,3 +30,19 @@ class Home(LoginRequiredMixin, TemplateView):
 
 class HomeSinPrivilegios(LoginRequiredMixin, generic.TemplateView):
     template_name = "bases/sin_privilegios.html"
+
+class VistaBaseCreate(SuccessMessageMixin, Sin_Privilegios, generic.CreateView):
+    context_object_name = "obj"
+    success_message = "Registro Agregado Satisfactoriamente"
+
+    def form_valid(self, form):
+        form.instance.uc = self.request.user 
+        return super().form_valid(form)
+
+class VistaBaseEdit(SuccessMessageMixin, Sin_Privilegios, generic.UpdateView):
+    context_object_name = "obj"
+    success_message = "Registro Actualizado Satisfactoriamente"
+
+    def form_valid(self, form):
+        form.instance.um = self.request.user.id 
+        return super().form_valid(form)
