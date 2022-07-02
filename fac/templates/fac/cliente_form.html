@@ -3,9 +3,9 @@
     <div class="modal-content">
         
         {% if obj %}        
-            <form method="POST" role="form" class="form-inline" action="{% url 'cmp:proveedor_edit' obj.pk %}">
+            <form method="POST" role="form" class="form-inline" action="{% url 'fac:cliente_edit' obj.pk %}">
         {% else %}
-            <form method="POST" role="form" class="form-inline" action="{% url 'cmp:proveedor_new' %}">
+            <form method="POST" role="form" class="form-inline" action="{% url 'fac:cliente_new' %}">
         {% endif %}    
 
             {% csrf_token %}

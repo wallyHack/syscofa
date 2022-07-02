@@ -13,7 +13,7 @@
             </a>
             <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
                 <div class="dropdown-header">Acciones:</div>
-                    <a class="dropdown-item" onclick="return abrir_modal('{# url 'cmp:proveedor_new' # }')"> <i class="fa fa-calendar-plus"></i> Nuevo</a>
+                    <a class="dropdown-item" onclick="return abrir_modal('{% url 'fac:cliente_new' %}')"> <i class="fa fa-calendar-plus"></i> Nuevo</a>
                     <!-- <a class="dropdown-item" href="#">Another action</a> -->
                 <div class="dropdown-divider"></div>
                 <!-- <a class="dropdown-item" href="#">Something else here</a> -->
@@ -48,8 +48,7 @@
                        <td>{{ item.tipo }}</td>                                          
                        <td>{{ item.estado|yesno:"Activo,Inactivo" }}</td>
                        <td>
-                            <button class="btn btn-warning btn-circle" onclick="return abrir_modal('{# url 'cmp:proveedor_edit' item.id #}')"><i class="far fa-edit"></i></button>
-                            <button class="btn btn-warning btn-circle" onclick="return abrir_modal('{# url 'cmp:proveedor_inactivar' item.id #}')"><i class="far fa-thumbs-down"></i></a>
+                            <button class="btn btn-warning btn-circle" onclick="return abrir_modal('{% url 'fac:cliente_edit' item.id %}')"><i class="far fa-edit"></i></button>
                        </td>
                    </tr>
                {% endfor %}
