@@ -7,3 +7,5 @@ django-crispy-forms
 djangorestframework
 markdown
 django-filter
+xhtml2pdf
+django-userforeignkey

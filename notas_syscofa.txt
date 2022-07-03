@@ -160,3 +160,6 @@ pip install xhtml2pdf
 
 attachment - genera el archivo pdf
 inline - se vilualiza con el navegador
+
+- uso de esta aplicación django-userforeignkey
+https://github.com/beachmachine/django-userforeignkey
