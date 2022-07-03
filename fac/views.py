@@ -1,6 +1,8 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
+from django.contrib.auth.decorators import login_required, permission_required
 
 from bases.views import Sin_Privilegios, VistaBaseCreate, VistaBaseEdit
 from .models import Cliente
@@ -26,6 +28,23 @@ class ClienteEdit(VistaBaseEdit):
     form_class = ClienteForm
     success_url = reverse_lazy("fac:cliente_list") 
     permission_required = 'fac.change_cliente'
+
+@login_required(login_url='/login/') #necesitamos estar logeados
+@permission_required("fac:change_cliente", login_url='/login/') #permiso requerido
+def clienteInactivar(request, id):
+    cliente = Cliente.objects.filter(pk=id).first()
+
+    if request.method == "POST":
+        if cliente: # si se creo el cliente
+            #si cliente esta en true se cambia a false o viceversa
+            cliente.estado = not cliente.estado 
+            cliente.save()
+            return HttpResponse("OK")
+        return HttpResponse("FAIL")
+
+    return HttpResponse("FAIL")
+    
+
 
 # class ClienteNew(SuccessMessageMixin, Sin_Privilegios, generic.CreateView):
 #     model = Cliente
