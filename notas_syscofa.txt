@@ -163,3 +163,9 @@ inline - se vilualiza con el navegador
 
 - uso de esta aplicación django-userforeignkey
 https://github.com/beachmachine/django-userforeignkey
+
+- uso de bootstrap-table para listar datos
+https://bootstrap-table.com/
+
+agregamos los css y js a la plantilla base
+agregamos data-toggle="table" a la etiqueta table y todos sus iconos
