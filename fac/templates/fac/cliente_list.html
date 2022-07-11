@@ -13,7 +13,7 @@
             </a>
             <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
                 <div class="dropdown-header">Acciones:</div>
-                    <a class="dropdown-item" onclick="return abrir_modal('{% url 'fac:cliente_new' %}')"> <i class="fa fa-calendar-plus"></i> Nuevo</a>
+                    <a class="dropdown-item" onclick="return abrir_modal('{% url 'fac:cliente_new' %}')"> <i class="far fa-calendar-plus"></i> Nuevo</a>
                     <!-- <a class="dropdown-item" href="#">Another action</a> -->
                 <div class="dropdown-divider"></div>
                 <!-- <a class="dropdown-item" href="#">Something else here</a> -->
@@ -26,6 +26,9 @@
        {% if not obj %}
             <div class="alert alert-info">No Hay Clientes</div>           
        {% endif %}
+       <!-- <div class="buttons-toolbar">
+            <button type="button" class="btn btn-primary" onclick="return abrir_modal('{% url 'fac:cliente_new' %}')"><i class="far fa-calendar-plus">Nuevo</i></button>
+       </div> -->
 
        <table
             id="table"
@@ -87,6 +90,7 @@
 
     <script>
 
+        // Jquery para inactivar cliente
         function inactivar(id){
             var data = {id:id};
             data = JSON.stringify(data);

@@ -5,7 +5,7 @@ from django.views import generic
 from django.contrib.auth.decorators import login_required, permission_required
 
 from bases.views import Sin_Privilegios, VistaBaseCreate, VistaBaseEdit
-from .models import Cliente
+from .models import Cliente, FacturaEnc
 from .forms import ClienteForm
 
 # Create your views here.
@@ -44,6 +44,11 @@ def clienteInactivar(request, id):
 
     return HttpResponse("FAIL")
     
+class FacturaView(Sin_Privilegios, generic.ListView):
+    model = FacturaEnc
+    template_name = "fac/factura_list.html"
+    context_object_name = "obj"
+    permission_required = 'fac.view_facturaenc'
 
 
 # class ClienteNew(SuccessMessageMixin, Sin_Privilegios, generic.CreateView):
