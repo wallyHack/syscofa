@@ -7,18 +7,15 @@
     <!-- Card Header - Dropdown -->
     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
         <h6 class="m-0 font-weight-bold text-primary">Listado de Clientes</h6>
-        <!-- <div class="dropdown no-arrow">
+        <div class="dropdown no-arrow">
             <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
             </a>
             <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
                 <div class="dropdown-header">Acciones:</div>
-                    <a class="dropdown-item" onclick="return abrir_modal('{% url 'fac:cliente_new' %}')"> <i class="fa fa-calendar-plus"></i> Nuevo</a> -->
-                    <!-- <a class="dropdown-item" href="#">Another action</a> -->
-                <!-- <div class="dropdown-divider"></div> -->
-                <!-- <a class="dropdown-item" href="#">Something else here</a> -->
-            <!-- </div>
-        </div> -->
+                <a class="dropdown-item" href="{% url 'fac:factura_new' %}"><i class="fa fa-calendar-plus"></i> Nuevo</a> 
+            </div>
+        </div>
     </div>
     <!-- Card Body -->
     <div class="card-body">
@@ -26,9 +23,9 @@
        {% if not obj %}
             <div class="alert alert-info">No Hay Clientes</div>           
        {% endif %}
-       <div class="buttons-toolbar">
-            <button type="button" class="btn btn-primary"><i class="far fa-calendar-plus">Nuevo</i></button>
-       </div>
+       <!-- <div class="buttons-toolbar">
+            <button type="button" class="btn btn-success"><i class="far fa-calendar-plus">Nuevo</i></button>
+       </div> -->
 
        <table
             id="table"
@@ -40,7 +37,7 @@
             data-show-fullscreen="true"
             data-show-toggle="true"
             data-locale="es-MX"
-            data-sort-order="desc"
+            data-toolbar = ".buttons-toolbar"
         >
            <thead>
                <th data-field="id" data-sortable="true">No. Factura</th>
