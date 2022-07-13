@@ -169,3 +169,6 @@ https://bootstrap-table.com/
 
 agregamos los css y js a la plantilla base
 agregamos data-toggle="table" a la etiqueta table y todos sus iconos
+
+- uso de select2 : libreria de Jquery
+https://select2.org/getting-started/installation

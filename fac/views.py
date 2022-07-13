@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib.auth.decorators import login_required, permission_required
+from datetime import datetime
 
 from bases.views import Sin_Privilegios, VistaBaseCreate, VistaBaseEdit
 from .models import Cliente, FacturaEnc
@@ -55,7 +56,13 @@ class FacturaView(Sin_Privilegios, generic.ListView):
 @permission_required("fac:change_facturaenc", login_url='bases:sin_privilegios') #permiso requerido
 def facturas(self):
     template_name = "fac/facturas.html"
-    contexto = {}
+    encabezado = {
+        'fecha': datetime.today()
+    }
+    detalle = {}
+    clientes = Cliente.objects.filter(estado=True)
+
+    contexto = {"enc":encabezado, "det":detalle, "clientes":clientes}
     
     return render(self, template_name, contexto)
 
