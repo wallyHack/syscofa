@@ -1,4 +1,5 @@
 from multiprocessing import context
+from operator import inv
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -9,6 +10,7 @@ from datetime import datetime
 from bases.views import Sin_Privilegios, VistaBaseCreate, VistaBaseEdit
 from .models import Cliente, FacturaEnc
 from .forms import ClienteForm
+from inv import views as inv
 
 # Create your views here.
 class ClienteView(Sin_Privilegios, generic.ListView):
@@ -65,6 +67,9 @@ def facturas(self):
     contexto = {"enc":encabezado, "det":detalle, "clientes":clientes}
     
     return render(self, template_name, contexto)
+
+class ProductoView(inv.ProductoView):
+    template_name = "fac/buscar_producto.html"
 
 
 # class ClienteNew(SuccessMessageMixin, Sin_Privilegios, generic.CreateView):

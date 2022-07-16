@@ -185,6 +185,16 @@
                 placeholder:"Seleccione Cliente",
                 allowClear:true
             });
+
+            // acción de botón buscar
+            $("#btnBuscar").click(function(e){
+                // se valida si no hay nada seleccionado
+                if($("#enc_cliente").val() === "0"){
+                    mensaje("Cliente no seleccionado", "red");
+                    return false;
+                }
+                abrir_modal("{% url 'fac:factura_producto' %}");
+            });
         });
     </script>
 {% endblock js_page %}
