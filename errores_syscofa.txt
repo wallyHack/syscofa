@@ -3,6 +3,7 @@
 solución:
 agregar en settings.py - templates
 'DIRS': [os.path.join(BASE_DIR, 'templates'),],
+***
 
 - TemplateSyntaxError at /
 Invalid block tag on line 15: 'static'. Did you forget to register or load this tag?
@@ -10,19 +11,44 @@ solución:
 corregir la sintaxis de plantillas
 {% load static %}
 href="{% static 'base/vendor/fontawesome-free/css/all.min.css' %}"
+***
 
 - no cargan las imagénes locales ni fuentes
 solución:
 agregar en settings.py la ruta de ficheros estáticos
+***
 
 - en windows vscode no se reconoce
 python manage.py dbshell
 
 solución:
 -- C:\Program Files\PostgreSQL\12\bin agregar esta ruta a las variables de entorno y sistema en -- path
+***
 
 error:
 ValueError: Model cmp.CompraDet can't have more than one auto-generated field
 - solución
 eliminar el campo que se genera solo, en este caso; por que la llave primaria(id) tambien se genera solo
 cantidad = models.BigAutoField(default=0)
+***
+
+error:
+AssertionError at /api/v1/productos/
+Cannot apply DjangoModelPermissionsOrAnonReadOnly on a view that does not set `.queryset` or have a `.get_queryset()` method
+solución:
+- cambiar los permisos de clase por default
+'rest_framework.permissions.IsAuthenticated',
+
+poner esto en settings.py
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',
+    ]
+}
+
+url de la solución
+https://stackoverflow.com/questions/31335736/cannot-apply-djangomodelpermissions-on-a-view-that-does-not-have-queryset-pro?answertab=trending#tab-top
+***
