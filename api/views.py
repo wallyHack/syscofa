@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404
 
 from .serializers import ProductoSerializer
 from inv.models import Producto
+from django.db.models import Q
 
 # Create your views here.
 class ProductoList(APIView):
@@ -18,7 +19,8 @@ class ProductoList(APIView):
 
 class ProductoDetalle(APIView):
     def get(self, request, codigo):
-        prod = get_object_or_404(Producto, codigo=codigo)
+        # el objeto Q es para filtrar 2 elementos con el condicional o
+        prod = get_object_or_404(Producto, Q(codigo=codigo) | Q(codigo_barra=codigo))
         #serializamos el producto
         data = ProductoSerializer(prod).data
         return Response(data)
