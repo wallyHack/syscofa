@@ -22,5 +22,7 @@ urlpatterns = [
     path('inv/', include(('inv.urls', 'inv'), namespace='inv')),
     path('cmp/', include(('cmp.urls', 'cmp'), namespace='cmp')),
     path('fac/', include(('fac.urls', 'fac'), namespace='fac')),
-    path('admin/', admin.site.urls),    
+    path('api/', include(('api.urls', 'api'), namespace='api')),
+    path('admin/', admin.site.urls),
+    path('api-auth/', include('rest_framework.urls')),    
 ]

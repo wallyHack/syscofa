@@ -172,3 +172,7 @@ agregamos data-toggle="table" a la etiqueta table y todos sus iconos
 
 - uso de select2 : libreria de Jquery
 https://select2.org/getting-started/installation
+
+- uso de django-rest-framework
+https://www.django-rest-framework.org/
+enfocarnos en ModelSerializer - transforma el data del modelo en json/xml
