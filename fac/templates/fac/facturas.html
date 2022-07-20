@@ -179,6 +179,60 @@
 
 {% block js_page %}
     <script>
+
+        function buscarProducto(){
+            // si no hemos seleccionado ningun cliente
+            if($('#enc_cliente').val() === "0" || $('#enc_cliente').val() === null){
+                mensaje("Cliente no seleccionado", "red");
+                return false;
+            }
+
+            var codigo = $('#codigo').val(); //extraemos el codigo
+            if(codigo === ""){ //si esta vacío
+                return false
+            }
+
+            // consumiendo el servicio rest API con ajax de Jquery
+            // obteniendo todo slos productos
+            var path = "{% url 'api:producto_list' %}" + codigo; //http://localhost:8000/api/v1/productos/
+            $.ajax({
+                type: "GET",
+                url: path,
+                success: function(r){ //si funciona
+                    console.log(r);
+                    console.log(r.existencia);
+                    console.log(r.estado);
+
+                    //si no hay productos en existencia o estan inactivos
+                    if(r.existencia <= 0 || !r.estado ){
+                        mensaje("Producto no tiene existencia o esta inactivo", "orange");
+                        $("#codigo").val(""); // limpiamos campos
+                        $("#descripcion").val("");
+                        $("#precio").val("0.00");
+                        $("#codigo").focus();
+                        return false;
+                    }
+
+                    $("#codigo").val(r.codigo);
+                    $("#descripcion").val(r.descripcion);
+                    $("#precio").val(r.precio);
+                    $("#cantidad").focus();
+                },
+                error: function(a,b,c){ //si no encontro nada
+                    console.log(a);
+                    if(a.status == 404){
+                        mensaje("Producto -" + codigo + "- No encontrado o No existe", "red");
+                        // limapiamos los campos
+                        $("#codigo").val("");
+                        $("#descripcion").val();
+                        $("#precio").val("0.00");
+                        $("#codigo").focus()
+                    }
+                }
+            });
+        }
+
+        // carga del DOM
         $(function (){
             $("sidebarToggle").click();
             $("#enc_cliente").select2({
@@ -194,6 +248,12 @@
                     return false;
                 }
                 abrir_modal("{% url 'fac:factura_producto' %}");
+            });
+
+            $("#codigo").keypress(function(e){
+                if(e.keyCode ===13){
+                    buscarProducto();
+                }
             });
         });
     </script>
