@@ -180,6 +180,41 @@
 {% block js_page %}
     <script>
 
+        function calcular_detalle(){
+            var cant, prec, desc, stotal, toral;
+
+            cant = $("#cantidad").val();
+            cant = cant==="" ? 0 : +cant;
+            cant = cant<0 ? 0 : cant;
+
+            prec = $("#precio").val();
+            prec = prec==="" ? 0 : +prec;
+            precio = prec<0 ? 0 : prec;
+
+            desc = $("#descuento_detalle").val();
+            desc = desc==="" ? 0 : +desc;
+            desc = desc<0 ? 0 : desc;
+
+            desc = desc>(cant * prec) ? 0: desc;
+
+            stotal = cant * prec;
+            total = stotal - desc;
+
+            $("#cantidad").val(cant);
+            $("#precio").val(prec);
+            $("#descuento_detalle").val(desc);
+
+            $("#sub_total_detalle").val(stotal);
+            $("#total_detalle").val(total);
+
+            console.log("Cantidad " + cant);
+            console.log("Precio " + prec);
+            console.log("Descuento " + desc);
+
+            console.log("sub_total_detalle " + $("#sub_total_detalle").val());
+            console.log("total_detalle " + $("#total_detalle").val());
+        }
+
         function buscarProducto(){
             // si no hemos seleccionado ningun cliente
             if($('#enc_cliente').val() === "0" || $('#enc_cliente').val() === null){
@@ -254,6 +289,10 @@
                 if(e.keyCode ===13){
                     buscarProducto();
                 }
+            });
+
+            $("#cantidad, #precio, #descuento_detalle").change(function(){
+                calcular_detalle();
             });
         });
     </script>
