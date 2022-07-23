@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from datetime import datetime
 
 from bases.views import Sin_Privilegios, VistaBaseCreate, VistaBaseEdit
-from .models import Cliente, FacturaEnc
+from .models import Cliente, FacturaDet, FacturaEnc
 from .forms import ClienteForm
 from inv import views as inv
 
@@ -56,7 +56,7 @@ class FacturaView(Sin_Privilegios, generic.ListView):
 
 @login_required(login_url='/login/') #necesitamos estar logeados
 @permission_required("fac:change_facturaenc", login_url='bases:sin_privilegios') #permiso requerido
-def facturas(self):
+def facturas(request, id=None):
     template_name = "fac/facturas.html"
     encabezado = {
         'fecha': datetime.today()
@@ -64,9 +64,33 @@ def facturas(self):
     detalle = {}
     clientes = Cliente.objects.filter(estado=True)
 
+    if request.method == "GET":
+        enc = FacturaEnc.objects.filter(pk=id).first()
+        if not enc:
+            encabezado = {
+                'id': 0,
+                'fecha': datetime.today,
+                'cliente': 0,
+                'sub_total': 0.00,
+                'descuento': 0.00,
+                'total': 0.00
+            }
+            detalle = None
+        else:
+            encabezado = {
+                'id': enc.id,
+                'fecha': enc.fecha,
+                'cliente': enc.cliente,
+                'sub_total': enc.sub_total,
+                'descuento': enc.decuento,
+                'total': enc.total
+            }
+            detalle = FacturaDet.objects.filter(factura=enc)
+        
+
     contexto = {"enc":encabezado, "det":detalle, "clientes":clientes}
     
-    return render(self, template_name, contexto)
+    return render(request, template_name, contexto)
 
 class ProductoView(inv.ProductoView):
     template_name = "fac/buscar_producto.html"
