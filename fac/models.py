@@ -2,6 +2,10 @@ from tabnanny import verbose
 from tkinter import CASCADE
 from django.db import models
 
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
+from django.db.models import Sum
+
 from bases.models import ClaseModelo, ClaseModelo2
 from inv.models import Producto
 
@@ -84,5 +88,32 @@ class FacturaDet(ClaseModelo2):
     class Meta:
         verbose_name_plural = "Detalles Facturas"
         verbose_name = "Detalle Factura"
+
+# vigilamos el modelo facturadet con signals
+@receiver(post_save, sender=FacturaDet)
+def detalle_fac_guardar(sender, instance, **kwargs):
+    factura_id = instance.factura.id   #id de factura
+    producto_id = instance.producto.id #id de producto
+
+    # modelo encabezado
+    enc = FacturaEnc.objects.get(pk=factura_id)
+    if enc:
+        sub_total = FacturaDet.objects.filter(factura=factura_id) \
+            .aggregate(sub_total=Sum('sub_total')).get('sub_total', 0.00)
+
+        descuento = FacturaDet.objects.filter(factura=factura_id) \
+            .aggregate(descuento=Sum('descuento')).get('descuento', 0.00)
+
+        enc.sub_total = sub_total
+        enc.descuento = descuento
+        enc.save()
+
+    # modelo producto
+    prod = Producto.objects.filter(pk=producto_id).first()
+    if prod: # si existe un producto
+        cantidad = int(prod.existencia) - int(instance.cantidad)
+        prod.existencia = cantidad
+        prod.save()
+    
 
 

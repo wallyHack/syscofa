@@ -2,10 +2,10 @@ from pyexpat import model
 from tabnanny import verbose
 from tkinter import CASCADE
 from django.db import models
-from django.db.models import Sum
 # para los signals
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
+from django.db.models import Sum
 from bases.models import ClaseModelo
 from inv.models import Producto
 
@@ -111,7 +111,7 @@ def detalle_compra_borrar(sender, instance, **kwargs):
         prod.save()
 
 @receiver(post_save, sender=ComprasDet)
-def detalle_comopra_guardar(sender, instance, **kwargs):
+def detalle_compra_guardar(sender, instance, **kwargs):
     id_producto = instance.producto.id
     fecha_compra = instance.compra.fecha_compra
 
