@@ -1,14 +1,17 @@
 from multiprocessing import context
 from operator import inv
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.test import Client
 from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib.auth.decorators import login_required, permission_required
 from datetime import datetime
+from django.contrib import messages
 
 from bases.views import Sin_Privilegios, VistaBaseCreate, VistaBaseEdit
 from .models import Cliente, FacturaDet, FacturaEnc
+from .models import Producto
 from .forms import ClienteForm
 from inv import views as inv
 
@@ -82,13 +85,59 @@ def facturas(request, id=None):
                 'fecha': enc.fecha,
                 'cliente': enc.cliente,
                 'sub_total': enc.sub_total,
-                'descuento': enc.decuento,
+                'descuento': enc.descuento,
                 'total': enc.total
             }
             detalle = FacturaDet.objects.filter(factura=enc)
         
+        contexto = {"enc":encabezado, "det":detalle, "clientes":clientes}
+    
+    if request.method == "POST":
+        cliente = request.POST.get("enc_cliente")
+        fecha = request.POST.get("fecha")
+        cli = Cliente.objects.get(pk=cliente)
 
-    contexto = {"enc":encabezado, "det":detalle, "clientes":clientes}
+        if not id: #si no hay id, la factura es nueva
+            enc = FacturaEnc(
+                cliente = cli,
+                fecha = fecha
+            )
+            if enc:
+                enc.save()
+                id = enc.id
+        
+        else:
+            enc = FacturaEnc.objects.filter(pk=id).first()
+            if enc: #ya existe el encabezado
+                enc.cliente = cli
+                enc.save()
+
+        if not id:
+            messages.error(request,'No Puedo Continuar No Pude Detectar No. de Factura')
+            return redirect("fac:factura_list")
+
+        codigo = request.POST.get("codigo")
+        cantidad = request.POST.get("cantidad")
+        precio = request.POST.get("precio")
+        s_total = request.POST.get("sub_total_detalle")
+        descuento = request.POST.get("descuento_detalle")
+        total = request.POST.get("total_detalle")
+
+        prod = Producto.objects.get(codigo=codigo)
+        det = FacturaDet(
+            factura = enc,
+            producto = prod,
+            cantidad = cantidad,
+            precio = precio,
+            sub_total = s_total,
+            descuento = descuento,
+            total = total
+        )
+
+        if det:
+            det.save()
+
+        return redirect("fac:factura_edit",id=id)
     
     return render(request, template_name, contexto)
 

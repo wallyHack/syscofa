@@ -55,7 +55,7 @@
                        <td>{{ item.total }}</td>                                         
                        <td>{{ item.estado|yesno:"Activo,Inactivo" }}</td>
                        <td>
-                            <button class="btn btn-warning btn-circle"><i class="far fa-edit"></i></button>
+                            <button href="{% url 'fac: factura_edit' item.id %}" class="btn btn-warning btn-circle"><i class="far fa-edit"></i></button>
                        </td>
                    </tr>
                {% endfor %}
