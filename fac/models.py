@@ -67,6 +67,9 @@ class FacturaEnc(ClaseModelo2):
     class Meta:
         verbose_name_plural = "Encabezado Facturas"
         verbose_name = "Encabezado Factura"
+        permissions = [
+            ('sup_caja_facturaenc', 'Permiso de Supervisor de Caja Encabezado')
+        ]
 
 class FacturaDet(ClaseModelo2):
     factura = models.ForeignKey(FacturaEnc, on_delete=models.CASCADE)
@@ -88,6 +91,9 @@ class FacturaDet(ClaseModelo2):
     class Meta:
         verbose_name_plural = "Detalles Facturas"
         verbose_name = "Detalle Factura"
+        permissions = [
+            ('sup_caja_facturadet', 'Permiso de Supervisor de Caja Detalle')
+        ]
 
 # vigilamos el modelo facturadet con signals
 @receiver(post_save, sender=FacturaDet)

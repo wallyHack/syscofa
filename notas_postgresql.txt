@@ -4,6 +4,9 @@ https://debsconsultores.blogspot.com/2021/10/integrar-consola-cmder-en-visual-st
 - accedemos con el usuario postgress
 psql -U postgres
 
+- cambiar contraseña de postgres
+\password
+
 - listar todas las bases de datos
 \l
 
