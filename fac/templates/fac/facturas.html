@@ -161,10 +161,8 @@
                                     <td>{{ item.descuento }}</td>
                                     <td>{{ item.total }}</td>
                                 <td>
-                                    <button type="button" class="btn btn-warning btn-circle"
-                                        onclick="borrar_detalle({{ item.id }})">
-                                        <i class="fas fa-history"></i>
-                                    </button>
+                                    <button type="button" class="btn btn-warning btn-circle" 
+                                        onclick="borrarDetalle({{ item.id }})"><i class="fas fa-history"></i></button>
                                 </td>
                                 </tr>
                                 {% endfor %}
@@ -307,6 +305,25 @@
             $("#descuento").val("{{ enc.descuento }}");
             $("#total").val({{ enc.total }});
         });
+
+        function borrarDetalle(id){
+            // mensaje(id);
+            $.confirm({
+                theme: "modern",
+                icon: "fab fa-keycdn",
+                type: "red",
+                title: "Confirmación Requerida",
+                content: 'url:/fac/facturas/borrar-detalle/' + id,
+                onContentReady: function () {
+                    // when content is fetched & rendered in DOM
+                    var self = this;                    
+                    this.$content.find('#usuario').val('{{ user.username }}');
+                    this.$content.find('#usuario').select();
+                    this.$content.find('#usuario').focus();
+                },
+            });
+        };
+
     </script>
 {% endblock js_page %}
     
