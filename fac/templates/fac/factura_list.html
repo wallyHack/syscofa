@@ -19,6 +19,23 @@
     </div>
     <!-- Card Body -->
     <div class="card-body">
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="labelFecha1" class="form-label">Fecha #1</label>
+                    <input type="text" class="form-class" name="f1" id="f1" readonly>
+                </div>
+                <div class="col-md-4">
+                    <label for="labelFecha1" class="form-label">Fecha #2</label>
+                    <input type="text" name="form-class" name="f2" id="f2" readonly>
+                </div>
+                <div class="col-md-4">
+                    <button type="button" class="btn btn-warning" id="btnPrint">Imprimir</button>
+                </div>
+            </div>
+        </div>
+        <hr>
        
        {% if not obj %}
             <div class="alert alert-info">No Hay Clientes</div>           
@@ -72,33 +89,37 @@
 {% block js_page %}
 
     <script>
-        // llamamos el dataTables jQuery plugin
-        // $(function() {
-        //     $("#sidebarToggle").click();
-        //     $('.table').DataTable({
-        //         "language": {
-        //             "processing": "Procesando...",
-        //             "lengthMenu": "Mostrar _MENU_ registros",
-        //             "zeroRecords": "No se encontraron resultados",
-        //             "emptyTable": "Ningún dato disponible en esta tabla",
-        //             "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-        //             "infoFiltered": "(filtrado de un total de _MAX_ registros)",
-        //             "search": "Buscar:",
-        //             "infoThousands": ",",
-        //             "loadingRecords": "Cargando...",
-        //             "paginate": {
-        //                 "first": "Primero",
-        //                 "last": "Último",
-        //                 "next": "Siguiente",
-        //                 "previous": "Anterior"
-        //             },
-        //             "aria": {
-        //                 "sortAscending": ": Activar para ordenar la columna de manera ascendente",
-        //                 "sortDescending": ": Activar para ordenar la columna de manera descendente"
-        //             }
-        //         }
-        //     });
-        // });
+        // si ya cargo el DOM
+        $(function(){
+            // agregamos el calendario a los input
+            $("#f1, #f2").datetimepicker({
+                format: 'Y-m-d',
+                timepicker: false
+            });
+
+            // evento del botón imprimir
+            $("#btnPrint").click(function(e){
+                e.preventDefault();
+
+                var f1, f2;
+                f1 = $("#f1").val(); // contenido del input 1
+                f2 = $("#f2").val(); // contenido del input 2
+
+                if(f1=="" || f1==null){ // esta vacio o nulo
+                    f1 = "2019-06-01";
+                }
+
+                if(f2=="" || f2==null){
+                    var d = new Date();
+                    var f2 = d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate();
+                }
+
+                var url = "imprimir-todas/" + f1 + "/" + f2;
+                //alert(url);
+
+                window.open(url, 'facturas');
+            });
+        });
     </script>
     
 {% endblock js_page%}

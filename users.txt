@@ -1,0 +1,4 @@
+
+admin: admin
+pedro: Mamut123 - es facturador
+juan: Mamut123  - es supervisor de caja

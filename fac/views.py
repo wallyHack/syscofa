@@ -1,5 +1,7 @@
+# from curses.ascii import HT
 from multiprocessing import context
 from operator import inv
+from turtle import pos
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.test import Client
@@ -8,6 +10,9 @@ from django.views import generic
 from django.contrib.auth.decorators import login_required, permission_required
 from datetime import datetime
 from django.contrib import messages
+
+from django.contrib.auth import authenticate
+from requests import post
 
 from bases.views import Sin_Privilegios, VistaBaseCreate, VistaBaseEdit
 from .models import Cliente, FacturaDet, FacturaEnc
@@ -58,7 +63,7 @@ class FacturaView(Sin_Privilegios, generic.ListView):
     permission_required = 'fac.view_facturaenc'
 
 @login_required(login_url='/login/') #necesitamos estar logeados
-@permission_required("fac:change_facturaenc", login_url='bases:sin_privilegios') #permiso requerido
+@permission_required("fac.change_facturaenc", login_url='bases:sin_privilegios') #permiso requerido
 def facturas(request, id=None):
     template_name = "fac/facturas.html"
     encabezado = {
@@ -151,6 +156,30 @@ def borrar_detalle_factura(request, id):
 
     if request.method == "GET":
         context = {"det": det}
+
+    if request.method == "POST":
+        usr = request.POST.get("usuario")
+        pas = request.POST.get("pass")
+
+        user = authenticate(username=usr, password=pas) # autenticamos al usuario
+
+        if not user: # validamos si el usuario o la clave estan mal
+            return HttpResponse("Usuario o clave incorrecta")
+
+        if not user.is_active: # si el usuario no esta activo
+            return HttpResponse("Usuario Inactivo")
+
+        if user.is_superuser or user.has_perm("fac.sup_caja_facturadet"): # si es superusuario y tiene este permiso
+            det.id = None
+            det.cantidad = (-1 * det.cantidad)
+            det.sub_total = (-1 * det.sub_total)
+            det.decuento = (-1 * det.descuento)
+            det.total = (-1 * det.total)
+            det.save()
+
+            return HttpResponse("ok")
+        
+        return HttpResponse("Usuario no autorizado")
 
     return render(request, template_name, context)
 

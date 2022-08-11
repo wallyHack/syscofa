@@ -6,7 +6,7 @@
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <a href="#" class="btn btn-danger">Guardar</a>
-                <a href="#" class="btn btn-success">Imprimir</a>
+                <a href="{% url 'fac:factura_imprimir_one' enc.id %}" class="btn btn-success">Imprimir</a>
                 <a href="{% url 'fac:factura_list' %}" class="btn btn-info">Cancelar</a>
             </div>
     
@@ -321,6 +321,56 @@
                     this.$content.find('#usuario').select();
                     this.$content.find('#usuario').focus();
                 },
+                buttons: {
+                    borrar: {
+                        text: "Borrar",
+                        btnClass: "btn btn-danger",
+                        action: function(){
+                            var usuario =  this.$content.find('input#usuario');
+                            var pass =  this.$content.find('input#password');
+
+                            // validamos que el usuario sea requerido
+                            if(!usuario.val().trim()){
+                                mensaje("Usuario es requerido", "red");
+                                return false;
+                            }
+
+                            // validamos que el password sea requerido
+                            if(!pass.val().trim()){
+                                mensaje("Contraseña es requerida", "red");
+                                return false;
+                            }
+
+                            // si se escribio algo, enviamos los datos(Aqui se muestran en consola)
+                            var data = {"usuario":usuario.val(), "pass": pass.val()};
+                            console.log(data);
+
+                            // envío através de AJAX de Jquery
+                            var token = '{{ csrf_token }}'; //obtenemos el token
+                            $.ajax({
+                                headers: { "X-CSRFToken": token },
+                                type: "POST",
+                                data: data,
+                                url: '/fac/facturas/borrar-detalle/' + id,
+                                success: function(r){ // si el envio fue exitoso
+                                    console.log(r);
+                                    if(r==="ok"){
+                                        location.reload(true); // recargamos la página
+                                    }else{
+                                        mensaje(r, "red");
+                                    }
+                                },
+                                error: function(a,b,c){ // si fallo en envio
+                                    mensaje(c);
+                                }
+                            });
+                        }
+                    },
+
+                    cancelar: function(){
+
+                    }
+                }   
             });
         };
 
