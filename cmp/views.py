@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.views import generic
 from django.urls import reverse_lazy
 import datetime
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse, HttpRequest
 
 from django.contrib.messages.views import SuccessMessageMixin
 from django.http import HttpResponse
@@ -21,13 +21,26 @@ from .forms import ProveedorForm
 from bases.views import Sin_Privilegios
 
 # Create your views here.
+class MixinFormInvalid:
+    """
+    Mixin to add JSON support to a form.
+    Must be used with an object-based FormView (e.g. CreateView)
+    """
+    def form_invalid(self, form):
+        response = super().form_invalid(form)
+        if self.request.accepts('text/html'):
+            return response
+        else:
+            return JsonResponse(form.errors, status=400)
+
+
 class ProveedorView(Sin_Privilegios, generic.ListView):
     model = Proveedor
     template_name = "cmp/proveedor_list.html"
     context_object_name = "obj"
     permission_required = 'cmp.view_proveedor'
 
-class ProveedorNew(SuccessMessageMixin, Sin_Privilegios, generic.CreateView):
+class ProveedorNew(SuccessMessageMixin, MixinFormInvalid, Sin_Privilegios, generic.CreateView):
     model = Proveedor
     template_name = "cmp/proveedor_form.html"
     context_object_name = "obj"
@@ -37,10 +50,19 @@ class ProveedorNew(SuccessMessageMixin, Sin_Privilegios, generic.CreateView):
     success_message = "Proveedor creado satisfactoriamente"
 
     def form_valid(self, form):
-        form.instance.uc = self.request.user #ubicamos al usuario que creo el formulario
+        form.instance.uc = self.request.user # ubicamos al usuario que creo el formulario
         return super().form_valid(form)
+ 
+    # validación del form
+    # def form_invalid(self, form):
+    #     response = super().form_invalid(form)
+    #     #if self.request.is_ajax():  método absoleto y en desuso
+    #     if self.request.accepts('text/html'):
+    #         return response
+    #     else:
+    #         return JsonResponse(form.errors, status=400)
 
-class ProveedorEdit(SuccessMessageMixin, Sin_Privilegios, generic.UpdateView):    
+class ProveedorEdit(SuccessMessageMixin, MixinFormInvalid, Sin_Privilegios, generic.UpdateView):    
     model = Proveedor
     template_name = "cmp/proveedor_form.html"
     context_object_name = "obj"
