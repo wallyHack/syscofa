@@ -1,39 +1,158 @@
-
-<div class="modal-dialog modal-lg">  
+<div class="modal-dialog modal-lg">
     <div class="modal-content">
-        
-        {% if obj %}        
-            <form method="POST" role="form" class="form-inline" action="{% url 'inv:producto_edit' obj.pk %}">
-        {% else %}
-            <form method="POST" role="form" class="form-inline" action="{% url 'inv:producto_new' %}">
-        {% endif %}    
 
-            {% csrf_token %}
-            <div class="col-xl-12 col-md-12 mb-12">
-    
-                {% if obj %}
-                <div class="card border-left-warning shadow h-100 py-2">
-                    {% else %}
-                    <div class="card border-left-succes shadow h-100 py-2">
-                        {% endif %}
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col mr-2">
-                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                        {% if obj %} Editar {% else %} Nuevo {% endif %}Producto
-                                    </div>
-                                    <div class="dropdown-divider"></div>
-                                    <div class="row">
-                                        {{ form.as_p}}
-                                    </div>
-    
-                                    <!-- {{ form.as_p }} -->
-                                    <div class="dropdown-divider"></div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <button type="submit" class="btn btn-danger"><span class="fa fa-save"></span>Guardar</button>
-                                            <!-- <a href="{% url 'inv:um_list' %}" class="btn btn-success"><span class="fa fa-undo">Cancelar</span></a> -->
-                                            <button type="button" class="btn btn-success" onclick="return cerrar_modal()">Cancelar</button>
+        {% if obj %}
+        <form method="POST" role="form" class="form-inline" action="{% url 'inv:producto_edit' obj.pk %}">
+            {% else %}
+            <form method="POST" role="form" class="form-inline" action="{% url 'inv:producto_new' %}">
+                {% endif %}
+
+                {% csrf_token %}
+                <div class="col-xl-12 col-md-12 mb-12">
+
+                    {% if obj %}
+                    <div class="card border-left-warning shadow h-100 py-2">
+                        {% else %}
+                        <div class="card border-left-succes shadow h-100 py-2">
+                            {% endif %}
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                            {% if obj %} Editar {% else %} Nuevo {% endif %}Producto
+                                        </div>
+                                        <div class="dropdown-divider"></div>
+                                        <div class="row">
+                                            {#{ form.as_p}#}
+                                        </div>
+
+                                        <!-- fila 1 -->
+                                        <div class="row my-1">
+                                            <div class="col-md-6">
+                                                <div class="col-md-6">{{ form.codigo.label }}</div>
+                                                <div class="col-md-6">{{ form.codigo }}</div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="col-md-6">{{ form.codigo_barra.label }}</div>
+                                                <div class="col-md-6">{{ form.codigo_barra }}</div>
+                                            </div>
+                                        </div>
+
+                                        <!-- fila 2 -->
+                                        <div class="row my-1">
+                                            <div class="col-md-6">
+                                                <div class="col-md-6">{{ form.descripcion.label }}</div>
+                                                <div class="col-md-6">{{ form.descripcion }}</div>
+                                            </div>
+
+                                            <div class="col-md-6 my-1">
+                                                <div class="col-md-6">{{ form.estado.label }}</div>
+                                                <div class="col-md-6">{{ form.estado }}</div>
+
+                                                <!-- <div class="col-md-12 py-4 pl-md-5">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value=""
+                                                            id="flexCheckDefault">
+                                                        <label class="form-check-label" for="flexCheckDefault">
+                                                            {{ form.estado.label }}
+                                                        </label>
+                                                    </div>
+                                                </div> -->
+                                            </div>
+                                        </div>
+
+                                        <!-- fila 3 -->
+                                        <div class="row my-1">
+                                            <div class="col-md-6">
+                                                <div class="col-md-6">{{ form.precio.label }}</div>
+                                                <div class="col-md-6">{{ form.precio }}</div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="col-md-6">{{ form.existencia.label }}</div>
+                                                <div class="col-md-6">{{ form.existencia }}</div>
+                                            </div>
+                                        </div>
+
+                                        <!-- fila 4 -->
+                                        <div class="row">
+                                            <div class="col-md-4 my-1">
+                                                <div class="col-md-12">{{ form.ultima_compra.label }}</div>
+                                                <div class="col-md-6">{{ form.ultima_compra }}</div>
+                                            </div>
+
+                                            <div class="col-md-4 my-1">
+                                                <div class="col-md-12">{{ form.marca.label }}</div>
+                                                <div class="col-md-6">{{ form.marca }}</div>
+                                            </div>
+                                            <div class="col-md-4 my-1">
+                                                <div class="col-md-12">{{ form.unidad_medida.label }}</div>
+                                                <div class="col-md-4">{{ form.unidad_medida }}</div>
+                                            </div>
+                                        </div>
+
+                                        <!-- fila 5 -->
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="col-md-12 my-1">Categoría</div>
+                                                <div class="col-md-6">
+                                                    <select name="categoria" id="id_categoria"
+                                                        class="form-control form-control-md">
+                                                        <option value="0">-------</option>
+
+                                                        {% for item in categorias %}
+                                                        <option value="{{ item.id }}">{{ item.descripcion }}</option>
+                                                        {% endfor %}
+
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="col-md-12 my-1">Sub Categoría</div>
+                                                <div class="col-md-6">
+                                                    <select name="subcategoria" id="id_subcategoria"
+                                                        class="form-control form-control-md">
+                                                        <option value="0">-------</option>
+
+                                                        {% for item in subcategorias %}
+                                                            <option value="{{ item.id }}" data-chained="{{ item.categoria.id }}">
+                                                                {{ item.descripcion }}
+                                                            </option>
+                                                        {% endfor %}
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                           
+
+                                            <!-- <select id="mark" name="mark">
+                                                <option value="">--</option>
+                                                <option value="bmw">BMW</option>
+                                                <option value="audi">Audi</option>
+                                            </select>
+                                            <select id="series" name="series">
+                                                <option value="">--</option>
+                                                <option value="series-3" data-chained="bmw">3 series</option>
+                                                <option value="series-5" data-chained="bmw">5 series</option>
+                                                <option value="series-6" data-chained="bmw">6 series</option>
+                                                <option value="a3" data-chained="audi">A3</option>
+                                                <option value="a4" data-chained="audi">A4</option>
+                                                <option value="a5" data-chained="audi">A5</option>
+                                            </select> -->
+
+                                        </div> 
+
+                                        <!-- {{ form.as_p }} -->
+                                        <div class="dropdown-divider"></div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <button type="submit" class="btn btn-danger"><span
+                                                        class="fa fa-save"></span>Guardar</button>
+                                                <!-- <a href="{% url 'inv:um_list' %}" class="btn btn-success"><span class="fa fa-undo">Cancelar</span></a> -->
+                                                <button type="button" class="btn btn-success"
+                                                    onclick="return cerrar_modal()">Cancelar</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -41,6 +160,16 @@
                         </div>
                     </div>
                 </div>
-        </form>
-    </div>        
+            </form>
+        </div>
+    </div>
 </div>
+
+<script>
+    // carga del DOM
+    $(function(){
+        $("#id_categoria").val("{{ obj.subcategoria.categoria.id }}") // pinta la categoria
+        $("#id_subcategoria").val("{{ obj.subcategoria.id }}").change(); // pinta la subcategoria        
+        $("#id_subcategoria").chained("#id_categoria"); // vinculamos los 2 select
+    });
+</script>

@@ -72,7 +72,7 @@ class SubCategoriaNew(SuccessMessageMixin, Sin_Privilegios, generic.CreateView):
     template_name = "inv/subcategoria_form.html"
     context_object_name = "obj"
     form_class =  SubCategoriaForm #formulario a utilizar
-    succes_message = "Sub Categoría creada correctamente"
+    success_message = "Sub Categoría creada correctamente"
     success_url = reverse_lazy("inv:subcategoria_list") #redireccionamos a la lista de subcategorías
 
     def form_valid(self, form):
@@ -86,7 +86,7 @@ class SubCategoriaEdit(SuccessMessageMixin, Sin_Privilegios, generic.UpdateView)
     template_name = "inv/subcategoria_form.html"
     context_object_name = "obj"
     form_class =  SubCategoriaForm #formulario a utilizar
-    succes_message = "Sub Categoría actualizada correctamente"
+    success_message = "Sub Categoría actualizada correctamente"
     success_url = reverse_lazy("inv:subcategoria_list") #redireccionamos a la lista de subcategorías
     
     def form_valid(self, form):
@@ -99,7 +99,7 @@ class SubCategoriaDel(SuccessMessageMixin, Sin_Privilegios, generic.edit.DeleteV
     template_name = "inv/catalogos_del.html"
     context_object_name = "obj"
     success_url = reverse_lazy("inv:subcategoria_list")
-    succes_message = "Sub Categoría eliminada correctamente"
+    success_message = "Sub Categoría eliminada correctamente"
     permission_required = "inv.delete_subcategoria"
 
 class MarcaView(Sin_Privilegios, generic.ListView):
@@ -116,7 +116,7 @@ class MarcaNew(SuccessMessageMixin, Sin_Privilegios, generic.CreateView):
     context_object_name = "obj"
     form_class =  MarcaForm #formulario a utilizar
     success_url = reverse_lazy("inv:marca_list") #redireccionamos a la lista de marcas
-    succes_message = "Marca creada correctamente"
+    success_message = "Marca creada correctamente"
     permission_required = "inv.add_marca"
 
     def form_valid(self, form):
@@ -130,7 +130,7 @@ class MarcaEdit(SuccessMessageMixin, Sin_Privilegios, generic.UpdateView):
     context_object_name = "obj"
     form_class =  MarcaForm #formulario a utilizar
     success_url = reverse_lazy("inv:marca_list") #redireccionamos a la lista de marcas
-    succes_message = "Marca actualizada correctamente"
+    success_message = "Marca actualizada correctamente"
     permission_required = "inv.change_marca"
 
     def form_valid(self, form):
@@ -173,7 +173,7 @@ class UMNew(SuccessMessageMixin, Sin_Privilegios, generic.CreateView):
     context_object_name = "obj"
     form_class =  UMForm #formulario a utilizar
     success_url = reverse_lazy("inv:um_list") #redireccionamos a la lista de unidades de medida
-    succes_message = "Unidad de Medida creada correctamente"
+    success_message = "Unidad de Medida creada correctamente"
     permission_required = "inv.add_unidadmedida"
 
     def form_valid(self, form):
@@ -187,7 +187,7 @@ class UMEdit(SuccessMessageMixin, Sin_Privilegios, generic.UpdateView):
     context_object_name = "obj"
     form_class =  UMForm #formulario a utilizar
     success_url = reverse_lazy("inv:um_list") #redireccionamos a la lista de unidades de medida
-    succes_message = "Unidad de Medida actualizada correctamente"
+    success_message = "Unidad de Medida actualizada correctamente"
     permission_required = "inv.change_unidadmedida"
 
     def form_valid(self, form):
@@ -229,12 +229,21 @@ class ProductoNew(SuccessMessageMixin, Sin_Privilegios, generic.CreateView):
     context_object_name = "obj"
     form_class =  ProductoForm #formulario a utilizar
     success_url = reverse_lazy("inv:producto_list") #redireccionamos a la lista de productos
-    succes_message = "Producto creado correctamente"
+    success_message = "Producto creado correctamente"
     permission_required = "inv.add_producto"
 
     def form_valid(self, form):
         form.instance.uc = self.request.user #ubicamos al usuario que creo el formulario
         return super().form_valid(form)
+
+    # devolviendo mas de 1 modelo en el contexto(Encadenamiento de select)
+    def get_context_data(self, **kwargs):
+        context = super(ProductoNew, self).get_context_data(**kwargs)
+        # devuelve todos los registros de categorias
+        context['categorias'] = Categoria.objects.all()
+        # devuelve todos los registros de subcategorias
+        context['subcategorias'] = SubCategoria.objects.all()
+        return context
 
 class ProductoEdit(SuccessMessageMixin, Sin_Privilegios, generic.UpdateView):    
     """ vista basada en clase para editar y/o actualizar un producto"""
@@ -243,12 +252,24 @@ class ProductoEdit(SuccessMessageMixin, Sin_Privilegios, generic.UpdateView):
     context_object_name = "obj"
     form_class =  ProductoForm #formulario a utilizar
     success_url = reverse_lazy("inv:producto_list") #redireccionamos a la lista de productos
-    succes_message = "Producto actualizado correctamente"
+    success_message = "Producto actualizado correctamente"
     permission_required = "inv.change_producto"
 
     def form_valid(self, form):
         form.instance.um = self.request.user.id #ubicamos al usuario que modificó el formulario
         return super().form_valid(form)
+
+    # Encadenamiento de select
+    def get_context_data(self, **kwargs):
+        pk = self.kwargs.get('pk') # obtenemos el id del producto específico
+
+        context = super(ProductoEdit, self).get_context_data(**kwargs)       
+        context["categorias"] = Categoria.objects.all()
+        context["subcategorias"] = SubCategoria.objects.all()
+        # mostramos en el select la lista de productos
+        context["obj"] = Producto.objects.filter(pk=pk).first()
+        
+        return context
 
 @login_required(login_url='/login/')
 @permission_required('inv.change_producto', login_url='bases:sin_privilegios')
