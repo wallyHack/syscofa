@@ -1,0 +1,11 @@
+django
+pylint
+psycopg2
+django-admin-interface
+Pillow
+django-crispy-forms
+djangorestframework
+markdown
+django-filter
+xhtml2pdf
+django-userforeignkey
