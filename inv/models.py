@@ -1,7 +1,6 @@
 
 from re import T
 from tabnanny import verbose
-from tkinter import CASCADE
 from django.db import models
 from bases.models import ClaseModelo
 

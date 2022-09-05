@@ -1,6 +1,5 @@
 from pyexpat import model
 from tabnanny import verbose
-from tkinter import CASCADE
 from django.db import models
 # para los signals
 from django.db.models.signals import post_save, post_delete
