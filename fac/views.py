@@ -1,7 +1,6 @@
 # from curses.ascii import HT
 from multiprocessing import context
 from operator import inv
-from turtle import pos
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.test import Client
