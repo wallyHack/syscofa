@@ -251,6 +251,7 @@
                     $("#codigo").val(r.codigo);
                     $("#descripcion").val(r.descripcion);
                     $("#precio").val(r.precio);
+                    $("#existencia").val(r.existencia);
                     $("#cantidad").focus();
                 },
                 error: function(a,b,c){ //si no encontro nada
@@ -373,6 +374,16 @@
                 }   
             });
         };
+
+        $("form").submit(function(e){
+            var existencia = +$("#existencia").val();
+            var cantidad = +$("#cantidad").val();
+
+            if(cantidad>existencia){
+                mensaje("No hay existencia suficiente");
+                return false; // detenemos el envio del form
+            }
+        });
 
     </script>
 {% endblock js_page %}
