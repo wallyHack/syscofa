@@ -237,6 +237,32 @@
 
             /* Validar Envio de Detalle */
             $("#frmCompras").submit(function(e){
+
+                // validamos el numero de factura
+                var no_fac = $("#id_no_factura").val();
+                console.log(no_fac);
+            
+                if(no_fac.trim() == ""){ //trim() - quita los espacios en blanco
+                    e.preventDefault(); // detenemos el envio
+                    $.alert({
+                        type: "red",
+                        title: "",
+                        content: "Debe especificar el no. de factura"
+                    });
+                    return false;
+                }
+
+                // validamos los input de fecha compra y fecha factura
+                if($("#id_fecha_compra").val() == "" || $("#id_fecha_factura").val() == ""){
+                    e.preventDefault(); // detenemos el envio
+                    $.alert({
+                        type: "red",
+                        title: "",
+                        content: "Debe especificar la fecha"
+                    });
+                    return false;
+                }
+
                 if($('#id_total_detalle').val()==0 || $('#id_id_producto').val()==0){
                     e.preventDefault();
                     //alert("no ha agregado producto o esta sin cantidades");
