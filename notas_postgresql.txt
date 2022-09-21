@@ -2,7 +2,7 @@
 https://debsconsultores.blogspot.com/2021/10/integrar-consola-cmder-en-visual-studio.html
 
 - accedemos con el usuario postgress
-psql -U postgres
+psql -U postgres -p 5432
 
 - cambiar contraseña de postgres
 \password
@@ -24,4 +24,7 @@ create database dbprueba with owner manuel;
 
 - eliminar base de datos
 drop database dbprueba;
+
+- al instalar postgres en windows agregar la variable de entorno para que se
+reconozca psql en la consola
 

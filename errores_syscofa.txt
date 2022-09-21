@@ -52,3 +52,12 @@ REST_FRAMEWORK = {
 url de la solución
 https://stackoverflow.com/questions/31335736/cannot-apply-djangomodelpermissions-on-a-view-that-does-not-have-queryset-pro?answertab=trending#tab-top
 ***
+
+- TypeError at /cmp/compras/23/delete/43
+unsupported operand type(s) for -: 'NoneType' and 'int'
+
+solución:
+hacer la operacion con enteros
+if self.sub_total == None or self.descuento == None:
+            self.sub_total = 0
+            self.descuento = 0
