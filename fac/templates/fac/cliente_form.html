@@ -3,9 +3,9 @@
     <div class="modal-content">
         
         {% if obj %}        
-            <form method="POST" role="form" class="form-inline" action="{% url 'fac:cliente_edit' obj.pk %}">
+            <form method="POST" id="frmCliente" role="form" class="form-inline" action="{% url 'fac:cliente_edit' obj.pk %}">
         {% else %}
-            <form method="POST" role="form" class="form-inline" action="{% url 'fac:cliente_new' %}">
+            <form method="POST" id="frmCliente" role="form" class="form-inline" action="{% url 'fac:cliente_new' %}">
         {% endif %}    
 
             {% csrf_token %}
@@ -21,6 +21,8 @@
                                 <div class="col mr-2">
                                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                         {% if obj %} Editar {% else %} Nuevo {% endif %}Cliente
+                                        
+                                        {% if t %} En factura {% endif %}
                                     </div>
                                     <div class="dropdown-divider"></div>
                                     <div class="row">
@@ -44,3 +46,27 @@
         </form>
     </div>        
 </div>
+
+
+{% if t %}
+    <script>
+        $("#frmCliente").submit(function(e){
+            var frm = $("#frmCliente");
+            $.ajax({
+                type: frm.attr('method'), // envio POST
+                url: frm.attr('action'),
+                data: frm.serialize(), // serializamos los datos del form
+                success: function(data){
+                    // alert(data);
+                    window.location.reload(true);
+                },
+                error: function(data){
+                    alert(data);
+                }
+            });
+
+            return false;
+        });
+    </script>
+{% endif %}
+    

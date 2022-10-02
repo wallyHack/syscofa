@@ -1,9 +1,6 @@
-# from curses.ascii import HT
-from multiprocessing import context
-from operator import inv
+
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from django.test import Client
 from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib.auth.decorators import login_required, permission_required
@@ -33,12 +30,43 @@ class ClienteNew(VistaBaseCreate):
     success_url = reverse_lazy('fac:cliente_list')
     permission_required = 'fac.add_cliente'
 
+    def get(self, request, *args, **kwargs):
+        print("sobre escribir get")
+        
+        try:
+            t = request.GET["t"]
+        except:
+            t = None
+
+        print(t)
+        
+        form = self.form_class(initial=self.initial)
+        return render(request, self.template_name, {'form': form, 't':t})
+
 class ClienteEdit(VistaBaseEdit):
     model = Cliente
     template_name = "fac/cliente_form.html"
     form_class = ClienteForm
     success_url = reverse_lazy("fac:cliente_list") 
     permission_required = 'fac.change_cliente'
+
+    def get(self, request, *args, **kwargs):
+        print("sobre escribir get en editar")
+
+        print(request)
+        
+        try:
+            t = request.GET["t"]
+        except:
+            t = None
+
+        print(t)
+        self.object = self.get_object()
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        context = self.get_context_data(object=self.object, form=form,t=t)
+        print(form_class,form,context)
+        return self.render_to_response(context)
 
 @login_required(login_url='/login/') #necesitamos estar logeados
 @permission_required("fac:change_cliente", login_url='/login/') #permiso requerido

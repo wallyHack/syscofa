@@ -25,14 +25,29 @@
                                     <div class="col-lg-2">Cliente</div>
                                     <!-- uso del select -->
                                     <div class="col-lg-5 form-group">
-                                        <select name="enc_cliente" id="enc_cliente">
+                                        <!-- <select name="enc_cliente" id="enc_cliente">
                                             <option value="0">Seleccione Cliente</option>
                                             
                                             {% for item in clientes %}
                                                 <option value="{{ item.id }}">{{ item.nombres }} {{ item.apellidos }}</option>
                                             {% endfor %}
                                                 
-                                        </select>
+                                        </select> -->
+
+                                        <div class="row">
+                                            <div class="col-lg-11">
+                                                <select name="enc_cliente" id="enc_cliente">
+                                                    <option value="0">Seleccione Cliente</option>
+                                                    
+                                                    {% for item in clientes %}
+                                                        <option value="{{ item.id }}">{{ item.nombres }} {{ item.apellidos }}</option>
+                                                    {% endfor %}                                                        
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-1">
+                                                <button class="btn btn-outline-danger btn-sm" id="btnEditCliente"><i class="far fa-edit"></i></button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
     
@@ -314,6 +329,7 @@
             // $('#enc_cliente').data('select2').trigger('select', {
             //     data: {"id": 3}
             // });
+
         });
 
         function borrarDetalle(id){
@@ -392,6 +408,27 @@
                 mensaje("No hay existencia suficiente");
                 return false; // detenemos el envio del form
             }
+        });
+
+        // botón editar cliente
+        $("#btnEditCliente").click(function(e){
+            e.preventDefault();
+
+            var idCliente = $("#enc_cliente").val(); // extraemos el id del cliente del select
+            var url;
+            const qs = "?t=fc";
+            // alert(idCliente);
+
+            if(idCliente===null || idCliente===undefined || idCliente=="0"){ // sino hay cliente, creamos uno
+                url = "/fac/clientes/new" + qs;
+                // alert(url);
+                abrir_modal(url)
+            }else{ // el cliente existe
+                url = "/fac/clientes/edit/" + idCliente + qs;
+                // alert(url);
+                abrir_modal(url);
+            }
+            var token = '{{ csrf_token }}'
         });
 
     </script>
